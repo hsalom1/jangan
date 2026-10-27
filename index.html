@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 유효회원 수강 분석</title>
+<meta name="description" content="장안구민회관 2026 유효회원 수강정보 분석: 회원 프로필, 분야별 연령대, 강좌 수요, 재등록, 교차수강">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">장안구민회관 프로그램 기획팀 · 수강정보 분석</div>
+    <h1>2026 유효회원 수강 분석</h1>
+    <p class="lead">카드번호 기준 동일인 식별 후, 회원 프로필·분야별(평생교육·스포츠·헬스) 연령대·강좌 수요·재등록·교차수강을 정리했습니다.</p>
+    <div class="tiles" id="tiles" aria-label="핵심 수치"></div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="섹션 이동">
+  <div class="wrap">
+    <a href="#summary">핵심 요약</a>
+    <a href="#profile">회원 프로필</a>
+    <a href="#fields">분야별 회원</a>
+    <a href="#demand">강좌 수요</a>
+    <a href="#retention">재등록</a>
+    <a href="#cross">교차수강</a>
+    <a href="#time">요일·시간대</a>
+    <a href="#classes">수강반 규모</a>
+    <a href="#basis">데이터 기준</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="summary">
+  <h2>핵심 요약</h2>
+  <p class="desc">아래 문장의 수치는 본문 집계표에서 자동으로 불러온 값입니다.</p>
+  <ul class="finds" id="finds"></ul>
+</section>
+
+<section id="profile">
+  <h2>회원 프로필</h2>
+  <p class="desc">카드번호가 같으면 한 사람으로 집계한 고유 회원 기준입니다.</p>
+  <div class="grid">
+    <div class="card"><h3>연령대·성별 회원 수</h3><p class="note">연령 미기재 회원은 제외했습니다.</p><div class="chart" id="ch-age"></div></div>
+    <div class="card"><h3>대분류별 회원 수</h3><p class="note">한 회원이 여러 대분류를 수강하면 각각에 포함되어 합계가 전체 회원 수보다 큽니다.</p><div class="chart" id="ch-cat"></div></div>
+  </div>
+</section>
+
+<section id="fields">
+  <h2>분야별 회원 (평생교육·스포츠·헬스)</h2>
+  <p class="desc">평생교육은 문화강좌(대면)와 특강, 스포츠는 수영(아쿠아)·생활체육·스쿼시, 헬스는 헬스 대분류입니다. 두 분야 이상을 이용한 회원은 각 분야에 모두 포함됩니다.</p>
+  <div class="grid">
+    <div class="card wide"><h3>분야별 회원 현황</h3><p class="note">단독이용은 해당 분야만 이용한 회원, 복수분야이용은 다른 분야도 함께 이용한 회원입니다.</p><div class="tbox"><table id="tb-field"></table></div></div>
+    <div class="card wide"><h3>연령대별 분야 이용 회원 수</h3><p class="note">연령 미기재 회원은 제외했습니다.</p><div class="chart" id="ch-fage"></div></div>
+    <div class="card wide">
+      <h3>분야별 연령 구성</h3>
+      <p class="note">선택한 분야 회원 중 연령대별 비중입니다.</p>
+      <div class="seg" id="seg-field" role="tablist" aria-label="분야 선택"></div>
+      <div class="chart" id="ch-fcomp"></div>
+    </div>
+    <div class="card"><h3>분야 이용 조합 (동일인 기준)</h3><p class="note">한 사람이 이용한 분야의 조합별 인원입니다.</p><div class="chart" id="ch-fcombo"></div></div>
+    <div class="card"><h3>분야·연령대 상세표</h3><p class="note">연령대별 여자·남자 인원입니다.</p><div class="tbox"><table id="tb-fa"></table></div></div>
+  </div>
+</section>
+
+<section id="demand">
+  <h2>강좌 수요</h2>
+  <p class="desc">‘시간대반’은 수영·아쿠아 시간대별 소분류를 유형별로 묶은 값이고, 시니어 소분류 두 개는 통합했습니다.</p>
+  <div class="grid">
+    <div class="card wide"><h3>소분류별 회원 수 (상위 15)</h3><p class="note">막대 색은 대분류입니다.</p><div class="chart" id="ch-sub"></div></div>
+    <div class="card wide"><h3>소분류 전체 목록</h3><input class="search" id="q-sub" type="search" placeholder="소분류·대분류 검색" aria-label="소분류 검색"><div class="tbox"><table id="tb-sub"></table></div></div>
+  </div>
+</section>
+
+<section id="retention">
+  <h2>재등록</h2>
+  <p class="desc">문화강좌 회원만 대상으로 합니다. 수영·생활체육·스쿼시·헬스는 2026-01(헬스는 2025-12) 이후 데이터가 없어 재등록을 계산하지 않았습니다.</p>
+  <div class="grid">
+    <div class="card"><h3>학기 간 재등록률</h3><p class="note">앞 학기 회원 중 뒤 학기에도 문화강좌를 수강한 비율입니다.</p><div class="chart" id="ch-ret"></div></div>
+    <div class="card"><h3>연령대별 재등록률 (4월→10월)</h3><p class="note">점선은 전체 재등록률입니다. 기준 회원이 50명 미만인 연령대는 흐리게 표시했으며 해석에 주의가 필요합니다.</p><div class="chart" id="ch-retage"></div></div>
+    <div class="card wide"><h3>소분류별 재등록률 (4월→10월)</h3><p class="note">4월 학기에 해당 소분류를 수강한 회원이 10월에 문화강좌 어느 과정이든 수강한 비율입니다. 기준 회원이 50명 미만이면 흐리게 표시했습니다.</p><div class="chart" id="ch-retsub"></div></div>
+  </div>
+</section>
+
+<section id="cross">
+  <h2>교차수강</h2>
+  <div class="grid">
+    <div class="card"><h3>수강 대분류 수별 회원</h3><p class="note">회원 한 사람이 수강한 대분류의 개수입니다.</p><div class="chart" id="ch-catn"></div></div>
+    <div class="card"><h3>둘 이상 대분류를 함께 수강한 회원</h3><p class="note">대분류 조합별 회원 수입니다(상위 조합).</p><div class="chart" id="ch-combo"></div></div>
+  </div>
+</section>
+
+<section id="time">
+  <h2>요일·시간대</h2>
+  <div class="grid">
+    <div class="card"><h3>수강 요일별 회원 수</h3><p class="note">수강반 편성 요일 기준입니다. 여러 요일 반을 수강한 회원은 각 요일에 포함됩니다.</p><div class="chart" id="ch-wd"></div></div>
+    <div class="card"><h3>수영·아쿠아 시간대별 회원 수</h3><p class="note">시간대 소분류가 있는 회원만 집계했습니다(2026-01 학기).</p><div class="chart" id="ch-swim"></div></div>
+  </div>
+</section>
+
+<section id="classes">
+  <h2>수강반 규모</h2>
+  <div class="grid">
+    <div class="card"><h3>수강반 규모 분포</h3><p class="note">수강반별 고유 회원 수 구간별 수강반 개수입니다.</p><div class="chart" id="ch-size"></div></div>
+    <div class="card"><h3>노래교실 강사별 학기 회원 수</h3><p class="note">강사 실명은 코드(A~D)로 대체했습니다.</p><div class="chart" id="ch-sing"></div></div>
+    <div class="card wide"><h3>회원 수 상위 수강반</h3><p class="note">노래교실은 강사 코드로 표기했습니다.</p><div class="tbox"><table id="tb-top"></table></div></div>
+  </div>
+</section>
+
+<section id="basis">
+  <h2>데이터 기준과 한계</h2>
+  <div class="card basis" id="basis-body"></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap" id="foot"></div>
+</footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
